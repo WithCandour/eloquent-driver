@@ -19,7 +19,7 @@ class EntryQueryBuilder extends EloquentQueryBuilder implements QueryBuilder
     protected function transform($items, $columns = [])
     {
         return EntryCollection::make($items)->map(function ($model) {
-            return app('statamic.eloquent.entries.model')::fromModel($model);
+            return Entry::fromModel($model);
         });
     }
 
