@@ -2,24 +2,34 @@
 
 namespace Statamic\Eloquent\Entries;
 
-use Illuminate\Database\Eloquent\Model as Eloquent;
 use Illuminate\Support\Arr;
+use Statamic\Eloquent\Database\BaseModel;
 
-class EntryModel extends Eloquent
+class EntryModel extends BaseModel
 {
     protected $guarded = [];
 
     protected $table = 'entries';
 
     protected $casts = [
-        'date' => 'datetime',
-        'data' => 'json',
-        'published' => 'bool',
+        'date'      => 'datetime',
+        'data'      => 'json',
+        'published' => 'boolean',
     ];
+
+    public function author()
+    {
+        return $this->belongsTo(\App\Models\User::class, 'data->author');
+    }
 
     public function origin()
     {
         return $this->belongsTo(static::class);
+    }
+
+    public function parent()
+    {
+        return $this->belongsTo(static::class, 'data->parent');
     }
 
     public function getAttribute($key)
